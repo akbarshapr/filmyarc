@@ -1,29 +1,22 @@
 import { useEffect, useState } from "react";
 import { fetchPopularMovies } from "../utils/movie";
 
-// In Development
 const Home = () => {
-  const images = [];
-  const [image, setImages] = useState("");
+  const [images, setImages] = useState("");
 
   useEffect(() => {
     const getMovies = async () => {
-      const moviePosters = sessionStorage.getItem('moviePosters');
+      const moviePosters = sessionStorage.getItem("moviePosters");
       if (moviePosters) {
-        const moviePosterArray = moviePosters.split(',').map(poster => ({ posterPath: poster }));
+        const moviePosterArray = moviePosters.split(",").map((poster) => ({ posterPath: poster }));
         setImages(moviePosterArray);
       } else {
         const response = await fetchPopularMovies();
-
-        response.map((item) => {
-          images.push(item.poster_path);
-        })
-
-        sessionStorage.setItem('moviePosters', images);
-        setImages(images);
+        const newImages = response.map((item) => ({ posterPath: item.poster_path }));
+        sessionStorage.setItem("moviePosters", newImages.map(img => img.posterPath));
+        setImages(newImages);
       }
     };
-
     getMovies();
   }, []);
 
