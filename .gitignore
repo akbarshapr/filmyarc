@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 .vite
 .env
+
+# to be updated later
+src/images
