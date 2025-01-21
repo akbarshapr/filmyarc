@@ -1,26 +1,27 @@
-import { useEffect, useState } from "react";
-import { fetchPopularMovies } from "../utils/movie";
+import "../styles/home.css";
+import { useState } from "react";
+
+const staticBackgrounds = ["src/images/bg-1.jpg", "src/images/bg-2.jpg"];
+
+const randomBackground = () => {
+  const randomIndex = Math.floor(Math.random() * staticBackgrounds.length);
+  return staticBackgrounds[randomIndex];
+};
 
 const Home = () => {
-  const [images, setImages] = useState("");
+  const [backgroundImage] = useState(randomBackground());
 
-  useEffect(() => {
-    const getMovies = async () => {
-      const moviePosters = sessionStorage.getItem("moviePosters");
-      if (moviePosters) {
-        const moviePosterArray = moviePosters.split(",").map((poster) => ({ posterPath: poster }));
-        setImages(moviePosterArray);
-      } else {
-        const response = await fetchPopularMovies();
-        const newImages = response.map((item) => ({ posterPath: item.poster_path }));
-        sessionStorage.setItem("moviePosters", newImages.map(img => img.posterPath));
-        setImages(newImages);
-      }
-    };
-    getMovies();
-  }, []);
-
-  return <div></div>;
+  return (
+    <div className="container">
+      <img className="background-img" src={backgroundImage} alt="Background" />
+      <div className="overlay"></div>
+      <div className="content">
+        <h2>FILMYARC</h2>
+        <p>Where Every Frame Tells a Story</p>
+        <button aria-label="Get started with FilmyArc">Get Started</button>
+      </div>
+    </div>
+  );
 };
 
 export default Home;

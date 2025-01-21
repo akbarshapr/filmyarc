@@ -1,6 +1,6 @@
 import * as config from './config';
 
-export const fetchMovies = async (endpoint, params = {}, totalPages = 1) => {
+const fetchMovies = async (endpoint, params = {}, totalPages = 1) => {
   const allMovies = [];
   const url = new URL(`${config.BASE_URL}/${endpoint}`);
 
